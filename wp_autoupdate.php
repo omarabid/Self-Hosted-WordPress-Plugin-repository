@@ -89,7 +89,7 @@ class wp_auto_update
             $information = $this->getRemote_information();
             return $information;
         }
-        return false;
+        return $false;
     }
 
     /**
