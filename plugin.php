@@ -8,7 +8,7 @@
  */
 
 // Load the auto-update class
-add_action( 'init', 'activate_au' );
+add_action( 'init', 'activate_au' );	
 function activate_au()
 {
 	require_once ( 'wp_autoupdate.php' );

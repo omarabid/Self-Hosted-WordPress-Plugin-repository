@@ -11,6 +11,7 @@ if ( !isset( $_POST['action'] ) ) {
 //set up the properties common to both requests 
 $obj = new stdClass();
 $obj->slug = 'plugin.php';  
+$obj->name = 'Plugin';
 $obj->plugin_name = 'plugin.php';
 $obj->new_version = '1.1';
 // the url for the plugin homepage
@@ -24,8 +25,8 @@ case 'version':
 	echo serialize( $obj );
 	break;  
 case 'info':   
-	$obj->requires = '3.0';  
-	$obj->tested = '3.4.2';  
+	$obj->requires = '4.0';  
+	$obj->tested = '4.0';  
 	$obj->downloaded = 12540;  
 	$obj->last_updated = '2012-10-17';  
 	$obj->sections = array(  
