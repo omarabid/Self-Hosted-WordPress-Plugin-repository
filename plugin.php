@@ -13,7 +13,9 @@ function activate_au()
 {
 	require_once ( 'wp_autoupdate.php' );
 	$plugin_current_version = '1.0';
-	$plugin_remote_path = plugin_dir_url( __FILE__ ) . 'update.php';
+	$plugin_remote_path = plugin_dir_url( __FILE__ ) . 'update.php';	
 	$plugin_slug = plugin_basename( __FILE__ );
-	new wp_auto_update ( $plugin_current_version, $plugin_remote_path, $plugin_slug );
+	$license_user = 'user';
+	$license_key = 'abcd';
+	new wp_auto_update ( $plugin_current_version, $plugin_remote_path, $plugin_slug, $license_user, $license_key );	
 }

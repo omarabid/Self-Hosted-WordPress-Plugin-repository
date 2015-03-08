@@ -19,7 +19,7 @@ $obj->url = 'http://www.example.com/plugins/my-plugin';
 //the download location for the plugin zip file (can be any internet host)
 $obj->package = 'http://mybucket.s3.amazonaws.com/plugin/plugin.zip';
 
-switch ($_POST['action']) {
+switch ( $_POST['action'] ) {
 
 case 'version':  
 	echo serialize( $obj );
