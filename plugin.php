@@ -8,12 +8,12 @@
  */
 
 // Load the auto-update class
-add_action('init', 'wptuts_activate_au');
-function wptuts_activate_au()
+add_action( 'init', 'activate_au' );
+function activate_au()
 {
-    require_once ('wp_autoupdate.php');
-    $wptuts_plugin_current_version = '1.0';
-    $wptuts_plugin_remote_path = 'http://localhost/update.php';
-    $wptuts_plugin_slug = plugin_basename(__FILE__);
-    new wp_auto_update ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
+	require_once ( 'wp_autoupdate.php' );
+	$plugin_current_version = '1.0';
+	$plugin_remote_path = plugin_dir_url( __FILE__ ) . 'update.php';
+	$plugin_slug = plugin_basename( __FILE__ );
+	new wp_auto_update ( $plugin_current_version, $plugin_remote_path, $plugin_slug );
 }
