@@ -1,30 +1,30 @@
 <?php
-
+if( !class_exists( wp_auto_update ) ):
 class wp_auto_update
 {
     /**
      * The plugin current version
      * @var string
      */
-    public $current_version;
+    private $current_version;
 
     /**
      * The plugin remote update path
      * @var string
      */
-    public $update_path;
+    private $update_path;
 
     /**
      * Plugin Slug (plugin_directory/plugin_file.php)
      * @var string
      */
-    public $plugin_slug;
+    private $plugin_slug;
 
     /**
      * Plugin name (plugin_file)
      * @var string
      */
-    public $slug;
+    private $slug;
 
     /**
      * Initialize a new instance of the WordPress Auto-Update class
@@ -32,7 +32,7 @@ class wp_auto_update
      * @param string $update_path
      * @param string $plugin_slug
      */
-    function __construct($current_version, $update_path, $plugin_slug)
+    public function __construct($current_version, $update_path, $plugin_slug)
     {
         // Set the class public variables
         $this->current_version = $current_version;
@@ -64,12 +64,12 @@ class wp_auto_update
         $remote_version = $this->getRemote_version();
 
         // If a newer version is available, add the update
-        if (version_compare($this->current_version, $remote_version, '<')) {
+        if (version_compare($this->current_version, $remote_version->new_version, '<')) {
             $obj = new stdClass();
             $obj->slug = $this->slug;
-            $obj->new_version = $remote_version;
-            $obj->url = $this->update_path;
-            $obj->package = $this->update_path;
+            $obj->new_version = $remote_version->new_version;
+            $obj->url = $remote_version->url;
+            $obj->package = $remote_version->package;
             $transient->response[$this->plugin_slug] = $obj;
         }
         return $transient;
@@ -96,11 +96,11 @@ class wp_auto_update
      * Return the remote version
      * @return string $remote_version
      */
-    public function getRemote_version()
+    private function getRemote_version()
     {
         $request = wp_remote_post($this->update_path, array('body' => array('action' => 'version')));
         if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
-            return $request['body'];
+            return unserialize( $request['body'] );
         }
         return false;
     }
@@ -109,7 +109,7 @@ class wp_auto_update
      * Get information about the remote version
      * @return bool|object
      */
-    public function getRemote_information()
+    private function getRemote_information()
     {
         $request = wp_remote_post($this->update_path, array('body' => array('action' => 'info')));
         if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
@@ -122,7 +122,7 @@ class wp_auto_update
      * Return the status of the plugin licensing
      * @return boolean $remote_license
      */
-    public function getRemote_license()
+    private function getRemote_license()
     {
         $request = wp_remote_post($this->update_path, array('body' => array('action' => 'license')));
         if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
