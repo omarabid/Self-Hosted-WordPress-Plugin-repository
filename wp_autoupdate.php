@@ -1,5 +1,5 @@
 <?php
-if( !class_exists( wp_auto_update ) ) {
+if( !class_exists( 'wp_auto_update' ) ) {
 	class wp_auto_update
 	{
 		/**
