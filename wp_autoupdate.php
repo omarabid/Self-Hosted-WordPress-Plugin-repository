@@ -165,7 +165,7 @@ if( !class_exists( 'wp_auto_update' ) ) {
 			);
 			$request = wp_remote_post( $this->update_path, $params );
 			if ( !is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-				return $request['body'];
+				return unserialize( $request['body'] );
 			}
 			return false;
 		}
