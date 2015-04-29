@@ -87,6 +87,7 @@ if( !class_exists( 'wp_auto_update' ) ) {
 				$obj->slug = $this->slug;
 				$obj->new_version = $remote_version->new_version;
 				$obj->url = $remote_version->url;
+				$obj->plugin = $this->plugin_slug;
 				$obj->package = $remote_version->package;
 				$transient->response[$this->plugin_slug] = $obj;
 			}
