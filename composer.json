@@ -18,7 +18,7 @@
 	},
 	"archive": {
         "exclude": ["plugin.php", "update.php"]
-    }
+    },
     "autoload": {
         "psr-4": {
             "omarabid\\WP_AutoUpdate\\": ""
