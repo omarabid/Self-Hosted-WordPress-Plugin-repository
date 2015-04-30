@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "omarabid\\WP_AutoUpdate\\": ""
+            "omarabid\\": ""
         }
     }
 }
