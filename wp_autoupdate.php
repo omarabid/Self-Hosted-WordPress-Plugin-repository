@@ -1,5 +1,4 @@
 <?php
-namespace omarabid;
 
 class WP_AutoUpdate 
 {
