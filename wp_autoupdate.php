@@ -117,21 +117,20 @@ class WP_AutoUpdate
 	 */
 	public function getRemote($action = '')
 	{
-		if (! in_array($action , array('version', 'info', 'license'])) ) {
-			Throw new Exception('Not a valid action');
-		}
-		
-		}
 		$params = array(
 			'body' => array(
-				'action' => $action,
+				'action'       => $action,
 				'license_user' => $this->license_user,
-				'license_key' => $this->license_key,
+				'license_key'  => $this->license_key,
 			),
 		);
+		
+		// make the request
 		$request = wp_remote_post ($this->update_path, $params );
+		
+		// check if response is valid
 		if ( !is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-			return unserialize( $request['body'] );
+			return @unserialize( $request['body'] );
 		}
 		return false;
 	}
