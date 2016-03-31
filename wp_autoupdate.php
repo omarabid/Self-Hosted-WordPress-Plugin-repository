@@ -105,9 +105,9 @@ class WP_AutoUpdate
 	public function check_info($false, $action, $arg)
 	{
 		if (isset($arg->slug) && $arg->slug === $this->slug) {
-			$information = $this->getRemote('info');
-			return $information;
+			return $this->getRemote('info');
 		}
+		
 		return false;
 	}
 
