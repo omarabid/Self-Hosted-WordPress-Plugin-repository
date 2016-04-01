@@ -79,7 +79,7 @@ class WP_AutoUpdate
 		}
 
 		// Get the remote version
-		$remote_version = $this->getRemote_version();
+		$remote_version = $this->getRemote('version');
 
 		// If a newer version is available, add the update
 		if ( version_compare( $this->current_version, $remote_version->new_version, '<' ) ) {
@@ -105,69 +105,35 @@ class WP_AutoUpdate
 	public function check_info($false, $action, $arg)
 	{
 		if (isset($arg->slug) && $arg->slug === $this->slug) {
-			$information = $this->getRemote_information();
-			return $information;
+			return $this->getRemote('info');
 		}
+		
 		return false;
 	}
 
 	/**
 	 * Return the remote version
+	 * 
 	 * @return string $remote_version
 	 */
-	public function getRemote_version()
+	public function getRemote($action = '')
 	{
 		$params = array(
 			'body' => array(
-				'action' => 'version',
+				'action'       => $action,
 				'license_user' => $this->license_user,
-				'license_key' => $this->license_key,
+				'license_key'  => $this->license_key,
 			),
 		);
-		$request = wp_remote_post ($this->update_path, $params );
+		
+		// Make the POST request
+		$request = wp_remote_post($this->update_path, $params );
+		
+		// Check if response is valid
 		if ( !is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-			return unserialize( $request['body'] );
+			return @unserialize( $request['body'] );
 		}
-		return false;
-	}
-
-	/**
-	 * Get information about the remote version
-	 * @return bool|object
-	 */
-	public function getRemote_information()
-	{
-		$params = array(
-			'body' => array(
-				'action' => 'info',
-				'license_user' => $this->license_user,
-				'license_key' => $this->license_key,
-			),
-		);
-		$request = wp_remote_post( $this->update_path, $params );
-		if (!is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-			return unserialize( $request['body'] );
-		}
-		return false;
-	}
-
-	/**
-	 * Return the status of the plugin licensing
-	 * @return boolean $remote_license
-	 */
-	public function getRemote_license()
-	{
-		$params = array(
-			'body' => array(
-				'action' => 'license',
-				'license_user' => $this->license_user,
-				'license_key' => $this->license_key,
-			),
-		);
-		$request = wp_remote_post( $this->update_path, $params );
-		if ( !is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
-			return unserialize( $request['body'] );
-		}
+		
 		return false;
 	}
 }
