@@ -6,11 +6,11 @@ For integration with Composer, please use [wp-autoupdate](https://github.com/wpp
 
 ## Quick Start
 
-1) Place the wp_autoupdate.php file somewhere in your plugin directory and require it.
+1) Place the `wp_autoupdate.php` file somewhere in your plugin directory and require it.
 ```php
 require_once( 'wp_autoupdate.php' );
 ```
-2) Hook the init function to initiatilize the update function when your plugin loads. Best put in your main plugin .php file:
+2) Hook the [init](https://codex.wordpress.org/Plugin_API/Action_Reference/init) function to initiatilize the update function when your plugin loads. Best put in your main `plugin.php` file:
 ```php
 	function snb_activate_au()
 	{
@@ -33,10 +33,13 @@ require_once( 'wp_autoupdate.php' );
 
 The `license_user` and `license_key` fields are optional. You can use these to implement an auto-update functionility for specified customers only. It's left to the developer to implement this if needed.
 
-Note that it's possible to store certain settings as a Wordpress option like the `plugin_remote_path` version. For more information see: https://codex.wordpress.org/Options_API.
-If you do so, you can use `get_option()` to get fields like `plugin_remote_path`, `license_user`, `license_key`.
+Note that it's possible to store certain settings as a Wordpress [option](https://codex.wordpress.org/Options_API) like the `plugin_remote_path` version.
+If you do so, you can use `get_option()` to get fields like `plugin_remote_path`, `license_user`, `license_key` directly from your plugin. This increases maintainability.
 
-3) Create your server back-end to handle the update requests. When Wordpress loads your plugin, it will check the given remote path to see if an update is availabe through the returned transient. For a basic implementation see below. Note however this example does not provide any protection or security, it serves as a demonstration purpose only.
+3) Create your server back-end to handle the update requests. You are fee to implement this any way you want, with any framework you want. 
+The idea is that when Wordpress loads your plugin, it will check the given remote path to see if an update is availabe through the returned transient. For a basic implementation see the example below. 
+
+Note however this example does not provide any protection or security, it serves as a demonstration purpose only.
 
 ```php
 if (isset($_POST['action'])) {
