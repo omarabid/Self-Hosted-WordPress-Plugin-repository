@@ -4,9 +4,9 @@ Create your own self-hosted WordPress Plugin repository for pushing automatic up
 
 For integration with Composer, please use [wp-autoupdate](https://github.com/wpplex/wp-autoupdate)
 
-## How to use
+## Quick Start
 
-1) Place the wp_autoupdate.php file somewhere in your plugin directory.
+1) Place the wp_autoupdate.php file somewhere in your plugin directory and require it.
 ```php
 require_once( 'wp_autoupdate.php' );
 ```
@@ -18,8 +18,8 @@ require_once( 'wp_autoupdate.php' );
 		$plugin_current_version = '<your current version> e.g. "0.6"';
 		$plugin_remote_path     = '<remote path to your update server> e.g. http://update.example.com'
 		$plugin_slug            = plugin_basename(__FILE__);
-		$license_user           = snb_opt('snb_license_user');
-		$license_key            = snb_opt('snb_license_key');
+		$license_user           = '<optional license username>';
+		$license_key            = '<optional license key>';
 
 		// only perform Auto-Update call if a license_user and license_key is given
 		if ( $license_user && $license_key && $plugin_remote_path )
@@ -30,6 +30,11 @@ require_once( 'wp_autoupdate.php' );
 
 	add_action('init', 'snb_activate_au');
 ```
+
+The `license_user` and `license_key` fields are optional. You can use these to implement an auto-update functionility for specified customers only. It's left to the developer to implement this if needed.
+
+Note that it's possible to store certain settings as a Wordpress option like the `plugin_remote_path` version. For more information see: https://codex.wordpress.org/Options_API.
+If you do so, you can use `get_option()` to get fields like `plugin_remote_path`, `license_user`, `license_key`.
 
 3) Create your server back-end to handle the update requests. When Wordpress loads your plugin, it will check the given remote path to see if an update is availabe through the returned transient. For a basic implementation see below. Note however this example does not provide any protection or security, it serves as a demonstration purpose only.
 
@@ -53,7 +58,7 @@ if (isset($_POST['action'])) {
           'another_section' => 'This is another section',
           'changelog'       => 'Some new features'
       );
-      $obj->download_link = 'http://localhost/update.php';
+      $obj->download_link = 'http://localhost/repository/update.zip';
       echo serialize($obj);
     case 'license':
       echo 'false';
@@ -66,5 +71,22 @@ if (isset($_POST['action'])) {
     readfile('update.zip');
 }
 ```
+
+4) Make sure the `download_link` points to a `*.zip` file that holds the new version of your plugin. This `*.zip` file must have the same name as your WordPress plugin does. Also the `*.zip` file must NOT contain the plugin files directly, but must have a subfolder with the same name as your plugin to make WordPress play nicely with it.
+e.g.:
+```php
+my-plugin.zip
+     │
+     └ my-plugin
+           │
+           ├ my-plugin.php
+           ├ README.txt
+           ├ uninstall.php
+           ├ index.php
+           ├ ..
+           └ etc.
+```
+
+# More information 
 
 You could find detailed explanation and example of usage [here](http://code.tutsplus.com/tutorials/a-guide-to-the-wordpress-http-api-automatic-plugin-updates--wp-25181)
