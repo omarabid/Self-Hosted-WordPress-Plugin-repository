@@ -89,6 +89,7 @@ class WP_AutoUpdate
 			$obj->url = $remote_version->url;
 			$obj->plugin = $this->plugin_slug;
 			$obj->package = $remote_version->package;
+			$obj->tested = $remote_version->tested;
 			$transient->response[$this->plugin_slug] = $obj;
 		}
 		return $transient;
