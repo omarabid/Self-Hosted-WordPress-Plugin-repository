@@ -103,13 +103,14 @@ class WP_AutoUpdate
 	 * @param object $arg
 	 * @return bool|object
 	 */
-	public function check_info($false, $action, $arg)
+	public function check_info($obj, $action, $arg)
 	{
-		if (isset($arg->slug) && $arg->slug === $this->slug) {
+		if (($action=='query_plugins' || $action=='plugin_information') && 
+		    isset($arg->slug) && $arg->slug === $this->slug) {
 			return $this->getRemote('info');
 		}
 		
-		return false;
+		return $obj;
 	}
 
 	/**
