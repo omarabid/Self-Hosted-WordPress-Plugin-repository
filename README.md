@@ -16,7 +16,7 @@ require_once( 'wp_autoupdate.php' );
 	{
 		// set auto-update params
 		$plugin_current_version = '<your current version> e.g. "0.6"';
-		$plugin_remote_path     = '<remote path to your update server> e.g. http://update.example.com'
+		$plugin_remote_path     = '<remote path to your update server> e.g. http://update.example.com';
 		$plugin_slug            = plugin_basename(__FILE__);
 		$license_user           = '<optional license username>';
 		$license_key            = '<optional license key>';
