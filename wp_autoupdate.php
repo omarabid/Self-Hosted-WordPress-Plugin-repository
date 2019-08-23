@@ -78,8 +78,8 @@ class WP_AutoUpdate
 			return $transient;
 		}
 
-		// Get the remote version
-		$remote_version = $this->getRemote('version');
+		// Get the remote infos and all params
+		$remote_version = $this->getRemote('info');
 
 		// If a newer version is available, add the update
 		if ( version_compare( $this->current_version, $remote_version->new_version, '<' ) ) {
@@ -90,6 +90,8 @@ class WP_AutoUpdate
 			$obj->plugin = $this->plugin_slug;
 			$obj->package = $remote_version->package;
 			$obj->tested = $remote_version->tested;
+			$obj->banners = $remote_version->banners;
+			$obj->icons = $remote_version->icons;
 			$transient->response[$this->plugin_slug] = $obj;
 		}
 		return $transient;
@@ -133,6 +135,9 @@ class WP_AutoUpdate
 		
 		// Check if response is valid
 		if ( !is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) === 200 ) {
+			if ( ! is_array( @unserialize( $request['body'] ) ) ) {
+				return $request['body'];
+			}
 			return @unserialize( $request['body'] );
 		}
 		
