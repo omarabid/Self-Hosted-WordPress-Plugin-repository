@@ -22,7 +22,8 @@ $obj->package = 'http://mybucket.s3.amazonaws.com/plugin/plugin.zip';
 switch ( $_POST['action'] ) {
 
 case 'version':  
-	echo serialize( $obj );
+	//echo serialize( $obj );
+	echo json_encode( $obj );
 	break;  
 case 'info':   
 	$obj->requires = '4.0';  
@@ -35,9 +36,11 @@ case 'info':
 		'changelog' => 'Some new features'  
 	);
 	$obj->download_link = $obj->package;  
-	echo serialize($obj);  
+	//echo serialize($obj);  
+	echo json_encode( $obj );
 case 'license':  
-	echo serialize( $obj );  
+	//echo serialize( $obj );
+	echo json_encode( $obj );
 	break;  
 }  
 
